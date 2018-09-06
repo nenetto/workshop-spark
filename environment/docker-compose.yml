@@ -1,0 +1,94 @@
+version: "2.0"
+services:
+
+  docker-ui:
+    image: uifd/ui-for-docker
+    container_name: docker-ui
+    hostname: docker-ui
+    privileged: true
+    ports:
+      - "9000:9000"
+    volumes:
+      -  /var/run/docker.sock:/var/run/docker.sock
+
+  spark-master:
+    container_name: master
+    image: flyday-spark
+    hostname: master
+    command: bin/spark-class org.apache.spark.deploy.master.Master -h master
+    environment:
+      MASTER: spark://master:7077
+      SPARK_CONF_DIR: /conf
+      SPARK_PUBLIC_DNS: localhost
+    expose:
+      - 7001
+      - 7002
+      - 7003
+      - 7004
+      - 7005
+      - 7006
+      - 7077
+      - 6066
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    volumes:
+      - ./conf/master:/conf
+      - ./data:/tmp/data
+
+  spark-worker-one:
+    container_name: worker_1
+    image: flyday-spark
+    hostname: worker_1
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 2g
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+      SPARK_PUBLIC_DNS: worker
+    links:
+      - spark-master:spark-master
+    expose:
+      - 7012
+      - 7013
+      - 7014
+      - 7015
+      - 7016
+      - 8881
+    ports:
+      - 8081
+    volumes:
+      - ./conf/worker:/conf
+      - ./data:/tmp/data
+
+  spark-worker-two:
+    container_name: worker_2
+    image: flyday-spark
+    hostname: worker_2
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
+    environment:
+      SPARK_CONF_DIR: /conf
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 2g
+      SPARK_WORKER_PORT: 8882
+      SPARK_WORKER_WEBUI_PORT: 8082
+      SPARK_PUBLIC_DNS: worker
+    links:
+      - spark-master:spark-master
+    expose:
+      - 7022
+      - 7023
+      - 7024
+      - 7025
+      - 7026
+      - 8882
+    ports:
+      - 8082
+    volumes:
+      - ./conf/worker:/conf
+      - ./data:/tmp/data
+
