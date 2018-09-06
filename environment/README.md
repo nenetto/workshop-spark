@@ -64,12 +64,15 @@ docker logs [container-name]
 
 ## Copiar un fichero a un contenedor docker 
 ```
-docker cp Desktop/python_job.py environment/data/python_job.py
+docker cp Desktop/python_job.py mycontainer:/python_job.py
 ```
-## Ejecutar un job en Spark
+## meterse en el nodo master de Spark
 ```
 docker exec -it master /bin/bash
+```
 
+## ejecutar un job estando dentro del nodo master
+```
 spark-submit \
 --conf "spark.driver.extraJavaOptions=-Dlog4j.configuration=file:/tmp/data/log4j.properties" \
 --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:/tmp/data/log4j.properties" \
@@ -77,4 +80,6 @@ spark-submit \
 --master spark://master:7077 \
 /tmp/data/python_job.py [parameters]
 ```
+
+
 
