@@ -3,8 +3,6 @@
 - Contenedor oficial de Spark (2.3.1)
 
 - El docker-compose.yml arrancará el entorno estrictamente necesario
-- El docker-compose-fullenvironment.yml arrancará todos los contenedores referentes a las imagenes declaradas en el
-  build_images.sh
 
 ## Build images:
 - `./build_images.sh`, script que construye las imagenes de docker, puede llevar un tiempo la construcción (15 min.).
