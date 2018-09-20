@@ -1,0 +1,3 @@
+[submodule "workshop-spark-violations"]
+	path = workshop-spark-violations
+	url = https://github.com/nenetto/workshop-spark-violations.git
