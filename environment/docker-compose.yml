@@ -8,17 +8,15 @@ services:
     privileged: true
     ports:
       - "9000:9000"
-    volumes:
-      -  /var/run/docker.sock:/var/run/docker.sock
 
   spark-master:
     container_name: master
-    image: flyday-spark
+    image: nenetto/workshop-spark
     hostname: master
     command: bin/spark-class org.apache.spark.deploy.master.Master -h master
     environment:
       MASTER: spark://master:7077
-      SPARK_CONF_DIR: /conf
+      SPARK_CONF_DIR: /conf/master
       SPARK_PUBLIC_DNS: localhost
     expose:
       - 7001
@@ -34,17 +32,14 @@ services:
       - 6066:6066
       - 7077:7077
       - 8080:8080
-    volumes:
-      - ./conf/master:/conf
-      - ./data:/tmp/data
 
   spark-worker-one:
     container_name: worker_1
-    image: flyday-spark
+    image: nenetto/workshop-spark
     hostname: worker_1
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:
-      SPARK_CONF_DIR: /conf
+      SPARK_CONF_DIR: /conf/worker
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
       SPARK_WORKER_PORT: 8881
@@ -61,17 +56,14 @@ services:
       - 8881
     ports:
       - 8081
-    volumes:
-      - ./conf/worker:/conf
-      - ./data:/tmp/data
 
   spark-worker-two:
     container_name: worker_2
-    image: flyday-spark
+    image: nenetto/workshop-spark
     hostname: worker_2
     command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:7077
     environment:
-      SPARK_CONF_DIR: /conf
+      SPARK_CONF_DIR: /conf/worker
       SPARK_WORKER_CORES: 1
       SPARK_WORKER_MEMORY: 2g
       SPARK_WORKER_PORT: 8882
@@ -88,7 +80,4 @@ services:
       - 8882
     ports:
       - 8082
-    volumes:
-      - ./conf/worker:/conf
-      - ./data:/tmp/data
 

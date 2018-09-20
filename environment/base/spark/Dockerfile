@@ -42,6 +42,9 @@ RUN curl -sL --retry 3 \
  && mv /opt/sds/$SPARK_PACKAGE $SPARK_HOME \
  && chown -R root:root $SPARK_HOME
 
+# Add conf files
+ADD conf /conf
+
 #Starting SPARK
 WORKDIR $SPARK_HOME
 CMD ["bin/spark-class", "org.apache.spark.deploy.master.Master"]
