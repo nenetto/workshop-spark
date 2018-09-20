@@ -10,7 +10,8 @@ echo "+++++++++++++++++++++++++++++++++++++++++++++"
 docker build -t ubuntu-base base/base/
 
 #spark
-docker build -t nenetto/workshop-spark-master base/spark/
+docker build -t nenetto/workshop-spark base/spark/
+
 
 echo "+++++++++++++++++++++++++++++++++++++++++++++"
 echo "all images were build succesfully!     "
@@ -19,8 +20,6 @@ echo "+++++++++++++++++++++++++++++++++++++++++++++"
 echo "+++++++++++++++++++++++++++++++++++++++++++++"
 echo "Pushing images    "
 echo "+++++++++++++++++++++++++++++++++++++++++++++"
-
-docker push nenetto/workshop-spark-master
 
 
 exit 0

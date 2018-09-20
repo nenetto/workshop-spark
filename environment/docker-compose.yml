@@ -18,6 +18,8 @@ services:
       MASTER: spark://master:7077
       SPARK_CONF_DIR: /conf/master
       SPARK_PUBLIC_DNS: localhost
+      PYSPARK_DRIVER_PYTHON: jupyter
+      PYSPARK_DRIVER_PYTHON_OPTS: "notebook --NotebookApp.open_browser=False --NotebookApp.ip=0.0.0.0 --NotebookApp.port=8880 --allow-root"
     expose:
       - 7001
       - 7002
@@ -32,6 +34,7 @@ services:
       - 6066:6066
       - 7077:7077
       - 8080:8080
+      - 8880:8880
 
   spark-worker-one:
     container_name: worker_1

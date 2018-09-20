@@ -10,12 +10,6 @@ RUN ln -s /opt/hadoop-${HADOOP_VERSION} /opt/sds/hadoop
 
 ENV HADOOP_HOME /opt/sds/hadoop
 
-# HDFS config in all nodes with HDFS
-RUN mv /opt/sds/hadoop/etc/hadoop/core-site.xml /opt/sds/hadoop/etc/hadoop/core-site.xml.bak
-RUN echo "<configuration><property><name>fs.defaultFS</name><value>hdfs://hadoop:8020</value></property></configuration>" > /opt/sds/hadoop/etc/hadoop/core-site.xml
-RUN mv /opt/sds/hadoop/etc/hadoop/hdfs-site.xml /opt/sds/hadoop/etc/hadoop/hdfs-site.xml.bak
-RUN echo "<configuration><property><name>dfs.replication</name><value>1</value></property><property><name>dfs.permissions</name><value>false</value></property></configuration>" > /opt/sds/hadoop/etc/hadoop/hdfs-site.xml
-
 # Including Hadoop environment and HDFS commands into bash
 ENV HADOOP_CONF_DIR /opt/sds/hadoop/etc/hadoop
 
@@ -44,6 +38,7 @@ RUN curl -sL --retry 3 \
 
 # Add conf files
 ADD conf /conf
+ADD data /opt/sds/spark-2.3.1/examples/data
 
 #Starting SPARK
 WORKDIR $SPARK_HOME

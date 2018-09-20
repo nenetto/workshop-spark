@@ -29,6 +29,20 @@ RUN apt-get -y install curl
 # SET JAVA_HOME (needed to run hadoop, among others)
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle/
 
+#SET PYTHON PIP DEPENDENCES
+RUN apt-get update
+RUN apt install -y python3-pip
+
+#Jupyter installation
+
+RUN pip3 install --upgrade setuptools
+RUN pip3 install jupyter
+
+#python tools installation
+
+RUN pip3 install pandas
+RUN pip3 install numpy
+
 #Cleansing
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
